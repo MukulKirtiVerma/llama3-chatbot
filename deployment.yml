@@ -1,0 +1,15 @@
+# deployment.yml
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: gpt-neo-deployment
+endpoint_name: gpt-neo-endpoint
+model:
+  name: gpt-neo-1.3b
+  version: 1  # Ensure this matches the version registered
+code_configuration:
+  code: .
+  scoring_script: score.py
+environment:
+  conda_file: conda.yaml
+  image: mcr.microsoft.com/azureml/pytorch-1.13-ubuntu20.04-py39-cuda11-gpu:latest
+instance_type: Standard_NC6s_v3  # GPU instance
+instance_count: 1

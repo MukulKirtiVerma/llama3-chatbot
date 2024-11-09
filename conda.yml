@@ -1,0 +1,17 @@
+# conda.yaml
+name: gpt-neo-env
+channels:
+  - defaults
+  - anaconda
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+    - torch==1.13.1
+    - transformers==4.31.0
+    - sentencepiece==0.1.99
+    - accelerate==0.20.3
+    - einops==0.6.1
+    - safetensors==0.3.1
+    - huggingface_hub==0.16.4
