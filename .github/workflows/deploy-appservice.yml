@@ -1,0 +1,35 @@
+name: Deploy to Azure App Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-appservice:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Build and Push Docker Image
+      run: |
+        az acr login --name myContainerRegistry
+        docker build -t mycontainerregistry.azurecr.io/streamlit-app:latest .
+        docker push mycontainerregistry.azurecr.io/streamlit-app:latest
+
+    - name: Update App Service to Use New Image
+      run: |
+        az webapp config container set --name myStreamlitApp --resource-group myResourceGroup --docker-custom-image-name mycontainerregistry.azurecr.io/streamlit-app:latest
+
+    - name: Set Environment Variables
+      run: |
+        ENDPOINT_URI=$(az ml online-endpoint show --name gpt-neo-endpoint --query scoring_uri -o tsv)
+        ENDPOINT_KEY=$(az ml online-endpoint get-credentials --name gpt-neo-endpoint --query primaryKey -o tsv)
+        az webapp config appsettings set --resource-group myResourceGroup --name myStreamlitApp --settings ENDPOINT_URI=$ENDPOINT_URI ENDPOINT_KEY=$ENDPOINT_KEY
