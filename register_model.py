@@ -7,9 +7,9 @@ from azure.identity import DefaultAzureCredential
 from huggingface_hub import snapshot_download
 
 # Replace these with your Azure subscription details
-subscription_id = "<YOUR_SUBSCRIPTION_ID>"
-resource_group = "<YOUR_RESOURCE_GROUP>"
-workspace_name = "<YOUR_WORKSPACE_NAME>"
+subscription_id = "4cb305a1-76e6-4dc2-bc55-e2219bee106e"
+resource_group = "myResourceGroup"
+workspace_name = "my-aml-workspace"
 
 # Authenticate to Azure ML using DefaultAzureCredential
 # This credential will use the environment's default authentication methods
