@@ -69,21 +69,22 @@ import streamlit as st
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
+
 @st.cache_resource
 def load_model():
-    model_name = "EleutherAI/gpt-neo-1.3B"  # Or any other free model
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    
+    model_path = "/model"  # Path to your local model directory
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+
     # Set the pad_token to eos_token if pad_token is not available
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    
+
     model = AutoModelForCausalLM.from_pretrained(
-        model_name,
+        model_path,
         torch_dtype=torch.float16,
         device_map="auto",
     )
-    
+
     # Update the model's pad_token_id
     model.config.pad_token_id = tokenizer.pad_token_id
 

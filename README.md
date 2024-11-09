@@ -21,3 +21,4 @@ az webapp config appsettings set --resource-group myResourceGroup --name myStrea
 az ad sp create-for-rbac --name "github-actions-sp" --sdk-auth --role contributor --scopes /subscriptions/<YOUR_SUBSCRIPTION_ID>/resourceGroups/myResourceGroup
 
 ```
+
