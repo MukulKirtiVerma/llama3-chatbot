@@ -22,3 +22,17 @@ az ad sp create-for-rbac --name "github-actions-sp" --sdk-auth --role contributo
 
 ```
 
+{
+  "clientId": "f51c1834-6709-4eab-8b7e-6fe8411dd372",
+  "clientSecret": "b5ca5ed2-6604-4133-b063-35b9eb508958",
+  "subscriptionId": "4cb305a1-76e6-4dc2-bc55-e2219bee106e",
+  "tenantId": "f2a36f4c-2b6b-4bce-b939-2b965bc48375",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
+}
+
+
