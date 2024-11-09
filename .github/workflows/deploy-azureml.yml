@@ -1,0 +1,41 @@
+# .github/workflows/deploy-azureml.yml
+name: Deploy to Azure ML
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-azureml:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Install Dependencies
+      run: |
+        pip install azure-ai-ml azure-identity huggingface_hub
+        az extension add -n ml -y
+
+    - name: Download GPT-Neo Model
+      run: |
+        python -c "
+        from huggingface_hub import snapshot_download
+        snapshot_download(repo_id='EleutherAI/gpt-neo-1.3B', local_dir='./models/gpt-neo-1.3B', local_dir_use_symlinks=False)
+        "
+
+    - name: Deploy Azure ML Endpoint
+      run: |
+        az ml online-endpoint create -f endpoint.yml
+        az ml online-deployment create -f deployment.yml --all-traffic
